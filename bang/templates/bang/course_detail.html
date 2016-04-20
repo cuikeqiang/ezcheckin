@@ -1,0 +1,10 @@
+<p>课程号：{{ course.course_number }}   课程名称：{{ course.course_name }}   课程老师： {{ course.course_teacher }}</p>
+{% if studentList %}
+    <ul>
+    {% for student in studentList %}
+        <li>{{ student }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No students are available.</p>
+{% endif %}
