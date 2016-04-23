@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1> 你好！</h1>
+
+<form  method="post">
+{% csrf_token %}
+学号：<input type="text" name="student_number" value="{{ student_number }}" />
+<br />
+姓名：<input type="text" name="student_name" value="{{ student_name }}" />
+<br />
+<input type="Submit" value="签到" />
+</form>
+
+
+<p id="demo">点击按钮获取您当前坐标（可能需要比较长的时间获取）：</p>
+<button onclick="getLocation()">点我</button>
+<script>
+var x=document.getElementById("demo");
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  else{x.innerHTML="该浏览器不支持获取地理位置。";}
+  }
+function showPosition(position)
+  {
+  x.innerHTML="纬度: " + position.coords.latitude + 
+  "<br>经度: " + position.coords.longitude;	
+  }
+</script>
+</body>
+</html>
