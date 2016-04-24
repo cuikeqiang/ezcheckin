@@ -12,11 +12,16 @@
 </head>
 <body>
 {% if coursesList %}
-    <ul>
+
     {% for course in coursesList %}
-        <li><a href="{% url 'bang:course_detail' course.course_number %}">{{course}}</a></li>
+
+        <a href="{% url 'bang:course_detail' course.course_number %}" 
+            class="list-group-item">
+            {{course}}
+        </a>
+
     {% endfor %}
-    </ul>
+
 {% else %}
     <p>No courses are available.</p>
 {% endif %}
