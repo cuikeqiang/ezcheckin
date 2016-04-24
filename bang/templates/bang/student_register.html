@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html>
+<head>
+   <title>EZCheckin</title>
+   <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+   <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+   <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, 
+                                     initial-scale=1.0, 
+                                     maximum-scale=1.0, 
+                                     user-scalable=no">
+</head>
 <body>
 
-<h1> 你好！</h1>
+<h1>签到</h1>
 
 <form  method="post">
-{% csrf_token %}
-学号：<input type="text" name="student_number" value="{{ student_number }}" />
-<br />
-姓名：<input type="text" name="student_name" value="{{ student_name }}" />
-<br />
-<input type="Submit" value="签到" />
+{% csrf_token %}   
+
+   <div class="form-group">
+      <label for="name">学号</label>
+      <input type="text" class="form-control" id="name" 
+         name="student_number" 
+         value="{{ student_number }}" 
+         placeholder="请输入学号">
+   </div>
+
+   <div class="form-group">
+      <label for="name">姓名</label>
+      <input type="text" class="form-control" id="name" 
+         name="student_name" 
+         value="{{ student_name }}" 
+         placeholder="请输入姓名">
+   </div>
+   <button type="submit" class="btn btn-default">提交</button>
 </form>
 
 

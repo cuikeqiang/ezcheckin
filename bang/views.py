@@ -25,7 +25,6 @@ def student_register(request):
         lessonName = request.GET.get('ln', None)
         try:
             Course.objects.get(course_number=lessonName)
-            print 'try get course'
         except Course.DoesNotExist:
             course = Course(course_number=lessonName)
             course.save()
