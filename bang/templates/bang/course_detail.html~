@@ -9,7 +9,7 @@
                                      initial-scale=1.0, 
                                      maximum-scale=1.0, 
                                      user-scalable=no">
-   <meta http-equiv="refresh" content="20">
+   <meta http-equiv="refresh" content="3">
 </head>
 <body>
 
@@ -17,14 +17,30 @@
 <!--课程名称：{{ course.course_name }}   课程老师： {{ course.course_teacher }}-->
 </p>
 {% if studentList %}
-    <ul>
+	<div class="table-responsive">
+		<table class="table">
+		   <caption>签到名单</caption>
+		   <thead>
+		      <tr>
+			 <th>学号</th>
+			 <th>姓名</th>
+			 <th>时间1</th>
+			 <th>时间2</th>
+		      </tr>
+		   </thead>
+		   <tbody>
 
-    {% for student in course.student_set.all %}
-        <li>{{ student }}</li>
-    {% endfor %}
-
-
-    </ul>
+			{% for student in course.student_set.all %}
+		      	<tr>
+				 <td>{{ student.student_number }}</td>
+				 <td>{{ student.student_name }}</td>
+				 <td>{{ student.student_requestTime }}</td>
+				 <td>{{ student.student_qrcodeTime }}</td>
+		      	</tr>
+			{% endfor %}
+		   </tbody>
+		</table>
+	</div>  	
 {% else %}
     <p>No students are available.</p>
 {% endif %}

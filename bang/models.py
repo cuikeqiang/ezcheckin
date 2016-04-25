@@ -22,8 +22,10 @@ class Student(models.Model):
     # donot understand on_delete
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     
-    student_number = models.CharField(max_length=40, primary_key=True)
+    student_number = models.CharField(max_length=40)
     student_name = models.CharField(max_length=40)
+    student_requestTime = models.DateTimeField('time that student sent the request')
+    student_qrcodeTime = models.DateTimeField('time that qrcode generated')
     
     # should add date
     def __unicode__(self):
