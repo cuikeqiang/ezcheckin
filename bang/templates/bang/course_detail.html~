@@ -24,8 +24,9 @@
 		      <tr>
 			 <th>学号</th>
 			 <th>姓名</th>
-			 <th>时间1</th>
-			 <th>时间2</th>
+			 <th>时间request</th>
+			 <th>时间qrcode</th>
+			 <th>时间差</th>
 		      </tr>
 		   </thead>
 		   <tbody>
@@ -34,8 +35,9 @@
 		      	<tr>
 				 <td>{{ student.student_number }}</td>
 				 <td>{{ student.student_name }}</td>
-				 <td>{{ student.student_requestTime }}</td>
-				 <td>{{ student.student_qrcodeTime }}</td>
+				 <td>{{ student.student_requestTime|date:"m-d H:i:s" }}</td>
+				 <td>{{ student.student_qrcodeTime|date:"m-d H:i:s" }}</td>
+				 <td>{{ int(student.student_requestTime) - int(student.student_qrcodeTime) }}</td>
 		      	</tr>
 			{% endfor %}
 		   </tbody>
