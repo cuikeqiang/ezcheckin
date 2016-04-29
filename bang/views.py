@@ -2,8 +2,7 @@ import time
 import datetime
 
 from django.shortcuts import render
-
-# Create your views here.
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.db import models
 from .models import Course, Student
@@ -12,10 +11,8 @@ from .models import Course, Student
 def student_register(request):
     if request.method == "POST":
         return student_register_post_respond(request)
-        
     elif request.method == "GET":
         return student_register_get_respond(request)
-
     else:
         raise Http404("Question does not exist")
 
@@ -29,9 +26,6 @@ def student_register_post_respond(request):
 
     datetimeQrcode = timestamp2datetime(int(qrcodeTime))
     datetimeRequest = timestamp2datetime(int(requestTime))
-    print 'time test:'
-    print datetimeQrcode, datetimeRequest
-    print '----------'
 
     new_student = course.student_set.create(student_number=number, student_name=name, student_requestTime=datetimeRequest, student_qrcodeTime=datetimeQrcode)
     new_student.save()
@@ -68,17 +62,14 @@ def courses(request):
     # ...
     # output the course name and the the course number
     return render(request, "bang/courses.html", {'coursesList':Course.objects.all()})
-    
-def course_register(request):
+
+@csrf_exempt    
+def course_newtable(request, course_number):
     if request.method == "POST":
-        number = request.POST.get('course_number', None)
-        name = request.POST.get('course_name', None)
-        teacher = request.POST.get('course_teacher', None)
-        new_course = Course(course_number=number, course_name=name, course_teacher=teacher)
-        new_course.save()
-        return render(request, "bang/success.html", {'name':name})
+        course = Course.objects.get(pk=course_number)
+        return render(request, "bang/course_newtable.html", {'course':course, 'studentList':Student.objects.all()})
     else:
-        return render(request, "bang/course_register.html")
+        raise Http404("Question does not exist")
 
 def course_detail(request, course_number):
     # ...

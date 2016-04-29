@@ -9,12 +9,16 @@
                                      initial-scale=1.0, 
                                      maximum-scale=1.0, 
                                      user-scalable=no">
-   <meta http-equiv="refresh" content="3">
 </head>
 <body>
 
+<div id="nowtime">  
+</div>  
+<div id="divNowTime">  
+</div>  
+<div id="divResult">  
+
 <p>课程号：{{ course.course_number }}   
-<!--课程名称：{{ course.course_name }}   课程老师： {{ course.course_teacher }}-->
 </p>
 {% if studentList %}
 	<div class="table-responsive">
@@ -26,7 +30,6 @@
 			 <th>姓名</th>
 			 <th>时间request</th>
 			 <th>时间qrcode</th>
-			 <th>时间差</th>
 		      </tr>
 		   </thead>
 		   <tbody>
@@ -37,7 +40,6 @@
 				 <td>{{ student.student_name }}</td>
 				 <td>{{ student.student_requestTime|date:"m-d H:i:s" }}</td>
 				 <td>{{ student.student_qrcodeTime|date:"m-d H:i:s" }}</td>
-				 <td>{{ int(student.student_requestTime) - int(student.student_qrcodeTime) }}</td>
 		      	</tr>
 			{% endfor %}
 		   </tbody>
@@ -47,6 +49,32 @@
     <p>No students are available.</p>
 {% endif %}
 
+
+</div> 
+
+<script type="text/javascript" language="javascript">  
+    $(document).ready(function () {  
+        setInterval("startRequest()", 3000);  
+    });  
+
+    function startRequest() {  
+        $("#nowtime").text((new Date()).toString());  
+        $('#divNowTime').text((new Date()).toLocaleDateString() + " " + (new Date()).toLocaleTimeString());  
+  
+        $.ajax({  
+            url: "new/",  
+            type: 'POST',  
+            data: {  
+                name: 1,  
+                kkk: "ok"  
+            },  
+            success: function (responseText) {  
+               
+                $("#divResult").replaceWith(responseText);  
+            }  
+        });  
+    }  
+</script>  
 
 </body>
 </html>
