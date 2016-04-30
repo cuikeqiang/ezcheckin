@@ -1,0 +1,30 @@
+<p>课程号：{{ course.course_number }}   
+</p>
+{% if studentList %}
+	<div class="table-responsive">
+		<table class="table">
+		   <caption>签到名单</caption>
+		   <thead>
+		      <tr>
+			 <th>学号</th>
+			 <th>姓名</th>
+			 <th>时间request</th>
+			 <th>时间qrcode</th>
+		      </tr>
+		   </thead>
+		   <tbody>
+
+			{% for student in course.student_set.all %}
+		      	<tr>
+				 <td>{{ student.student_number }}</td>
+				 <td>{{ student.student_name }}</td>
+				 <td>{{ student.student_requestTime|date:"m-d H:i:s" }}</td>
+				 <td>{{ student.student_qrcodeTime|date:"m-d H:i:s" }}</td>
+		      	</tr>
+			{% endfor %}
+		   </tbody>
+		</table>
+	</div>  	
+{% else %}
+    <p>No students are available.</p>
+{% endif %}

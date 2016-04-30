@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# Create your models here.
 class Course(models.Model):
     """
     the course class
@@ -26,15 +25,9 @@ class Student(models.Model):
     student_name = models.CharField(max_length=40)
     student_requestTime = models.DateTimeField('time that student sent the request')
     student_qrcodeTime = models.DateTimeField('time that qrcode generated')
-    
+    student_heartbeatCount = models.PositiveSmallIntegerField('heartbeat count')
+
     # should add date
     def __unicode__(self):
         return self.student_number + '  :  ' + self.student_name
-        
-    # add some method to verify the student_number
-        
 
-
-    
-    
-    
