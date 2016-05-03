@@ -14,8 +14,9 @@
 <body>
 
 <h1>开始签到</h1>
-<p>不要乱动，安静地等2分钟</p>
- 
+<p>不要乱动，安静地等一会</p>
+<div id="visibility">  
+</div>  
 <div id="nowtime">  
 </div>  
 <div id="divNowTime">  
@@ -28,14 +29,77 @@
 {% csrf_token %}   
       <input id="student_number" type="hidden" name="studentNumber" value="{{ studentNumber }}">
       <input id="course_number" type="hidden" name="courseNumber" value="{{ courseNumber }}">
+      <input id="heartbeat" type="hidden" name="heartbeat" value=0>
+      <input id="heartbeatRequired" type="hidden" name="heartbeatRequired" value=100>
 </form>
 
-<script type="text/javascript" language="javascript">  
-    $(document).ready(function () {  
+<script type="text/javascript" language="javascript">
+
+		var hidden, state, visibilityChange; 
+		if (typeof document.hidden !== "undefined") {
+			hidden = "hidden";
+			visibilityChange = "visibilitychange";
+			state = "visibilityState";
+		} else if (typeof document.mozHidden !== "undefined") {
+			hidden = "mozHidden";
+			visibilityChange = "mozvisibilitychange";
+			state = "mozVisibilityState";
+		} else if (typeof document.msHidden !== "undefined") {
+			hidden = "msHidden";
+			visibilityChange = "msvisibilitychange";
+			state = "msVisibilityState";
+		} else if (typeof document.webkitHidden !== "undefined") {
+			hidden = "webkitHidden";
+			visibilityChange = "webkitvisibilitychange";
+			state = "webkitVisibilityState";
+		} else{
+                        $("#visibility").text("undefined");  
+                }
+		
+                function visibilityChangeReaction() {
+			document.title = document[state];
+    			if (document.hidden) {   
+                        	$("#visibility").append("hidden");  
+   			} else  {
+                        	$("#visibility").append("visible");
+   			}
+                }
+		document.addEventListener("visibilityChange", visibilityChangeReaction);                 
+                document.addEventListener("webkitvisibilitychange", visibilityChangeReaction);    
+                document.addEventListener("msvisibilitychange", visibilityChangeReaction); 
+
+			window.onfocus = function () { 
+                        	$("#visibility").append("visible");
+			}; 
+
+			window.onblur = function () { 
+                        	$("#visibility").append("hidden"); 
+			}; 
+
+document.title = state + " " + document[state];
+
+    $(document).ready(function(){  
         setInterval("startRequest()", 3000);  
     });  
 
-    function startRequest() {  
+
+
+
+    function startRequest(){ 
+        if($("#heartbeat").val() >= 100){
+            getSuccessPage();
+        }
+        else{
+            getHeartbeat();
+        }
+    }  
+
+    function getSuccessPage(){
+        $("#divResult").text("success"); 
+        window.location.href='success/';
+    }
+
+    function getHeartbeat(){
         $("#nowtime").text((new Date()).toString());  
         $('#divNowTime').text((new Date()).toLocaleDateString() + " " + (new Date()).toLocaleTimeString());  
         var student_number = $("#student_number").val();
@@ -47,11 +111,13 @@
                 student_number: student_number, 
                 course_number: course_number 
             },  
-            success: function (responseText) {  
-                $("#divResult").text(responseText);  
+            success: function (responseText) { 
+                $("#divResult").text(responseText); 
+                $("#heartbeat").val(responseText); 
             }  
-        });  
-    }  
+        });
+    }
+
 </script>  
 
 </body>

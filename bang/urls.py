@@ -9,5 +9,7 @@ urlpatterns = [
     url(r'^courses/(?P<course_number>[a-zA-Z0-9_]+)/$', views.course_detail, name='course_detail'),
     url(r'^courses/(?P<course_number>[a-zA-Z0-9_]+)/newtable/$', views.course_newtable, name='course_newtable'),
     url(r'^courses/student_register/heartbeat/$', views.course_heartbeat, name='course_heartbeat'),
+    url(r'^courses/student_register/success/$', views.student_success, name='student_success'),
+    url(r'^courses/student_register/fail/$', views.student_fail, name='student_fail')
 ]
 

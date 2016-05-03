@@ -7,6 +7,9 @@ from django.http import HttpResponse
 from django.db import models
 from .models import Course, Student
     
+class EzcConfig:
+    heartbeatRequired = 100
+    reactionTime = 10
 
 def student_register(request):
     if request.method == "POST":
@@ -44,13 +47,20 @@ def student_register_post_create_new_student(request):
         selected_student.student_name = name
         selected_student.student_requestTime = datetimeRequest
         selected_student.student_qrcodeTime = datetimeQrcode
-        selected_student.student_heartbeatCount = 0
+        if(selected_student.student_heartbeatCount < EzcConfig.heartbeatRequired):
+            selected_student.student_heartbeatCount = 0
         selected_student.save()
 
-def student_register_get_respond(request):        
+def student_register_get_respond(request):
+            
     timeNow = int(time.time())
     timeQrcode = request.GET.get('time', None)
     timeDifference = timeNow - int(timeQrcode)
+    if(timeDifference > EzcConfig.reactionTime):
+        return render(request, "bang/student_register_timeout.html", 
+            {'timediff':timeDifference, 
+             'requestTime':timestamp2datetime(timeNow),
+             'qrcodeTime':timestamp2datetime(int(timeQrcode))})
     lessonName = request.GET.get('ln', None)
     try:
         Course.objects.get(course_number=lessonName)
@@ -102,10 +112,19 @@ def course_heartbeat_get_heartbeat_count(request):
         selected_student.save()
         return selected_student.student_heartbeatCount
 
-
-
-
 def course_detail(request, course_number):
     course = Course.objects.get(pk=course_number)
     return render(request, "bang/course_detail.html", {'course':course, 'studentList':Student.objects.all()})
-    
+
+def student_success(request):
+    if request.method == "GET":
+        return render(request, "bang/success.html")
+    else:
+        raise Http404("Question does not exist")
+
+def student_fail(request):
+    if request.method == "GET":
+        return render(request, "bang/fail.html")
+    else:
+        raise Http404("Question does not exist")
+

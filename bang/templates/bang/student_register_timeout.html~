@@ -12,8 +12,11 @@
 </head>
 <body>
 
-<h2>完成</h2>
-
+<h2>请求已过期</h2>
+<h4>重新扫屏幕上的二维码</h4>
+<p>timediff: {{ timediff }} <br>
+{{ requestTime }} <br>
+{{ qrcodeTime }}</p>
 
 </body>
 </html>

@@ -32,6 +32,7 @@
 			 <th>姓名</th>
 			 <th>时间request</th>
 			 <th>时间qrcode</th>
+			 <th>heartbeats</th>
 		      </tr>
 		   </thead>
 		   <tbody>
@@ -42,6 +43,7 @@
 				 <td>{{ student.student_name }}</td>
 				 <td>{{ student.student_requestTime|date:"m-d H:i:s" }}</td>
 				 <td>{{ student.student_qrcodeTime|date:"m-d H:i:s" }}</td>
+				 <td>{{ student.student_heartbeatCount }}</td>
 		      	</tr>
 			{% endfor %}
 		   </tbody>
@@ -54,7 +56,31 @@
 
 </div> 
 
-<script type="text/javascript" language="javascript">  
+<script type="text/javascript" language="javascript"> 
+		var hidden, state, visibilityChange; 
+		if (typeof document.hidden !== "undefined") {
+			hidden = "hidden";
+			visibilityChange = "visibilitychange";
+			state = "visibilityState";
+		} else if (typeof document.mozHidden !== "undefined") {
+			hidden = "mozHidden";
+			visibilityChange = "mozvisibilitychange";
+			state = "mozVisibilityState";
+		} else if (typeof document.msHidden !== "undefined") {
+			hidden = "msHidden";
+			visibilityChange = "msvisibilitychange";
+			state = "msVisibilityState";
+		} else if (typeof document.webkitHidden !== "undefined") {
+			hidden = "webkitHidden";
+			visibilityChange = "webkitvisibilitychange";
+			state = "webkitVisibilityState";
+		}
+		
+		// Add a listener that constantly changes the title
+		document.addEventListener(visibilityChange, function() {
+			document.title = document[state];
+		}, false);
+ 
     $(document).ready(function () {  
         setInterval("startRequest()", 3000);  
     });  
